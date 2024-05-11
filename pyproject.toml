@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "model-service"
+version = "0.1.0"
+description = ""
+authors = ["Team 11 <R.A.Todorov@student.tudelft.nl>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+flask = "^3.0.3"
+requests = "^2.31.0"
+numpy = "^1.26.4"
+lib-ml-team11 = "^0.0.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
