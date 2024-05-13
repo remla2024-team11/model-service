@@ -13,9 +13,10 @@ swagger = Swagger(app)
 CORS(app)
 
 preprocessing = Preprocessing()
-# MODEL_CLOUD = os.environ.get('MODEL_CLOUD')
-MODEL_CLOUD = 'https://drive.google.com/uc?export=download&id=1V24-vhxGFixcUp8sVpOAVSUsYmxJFMWF'
-TOKENIZER_CLOUD = 'https://drive.google.com/uc?export=download&id=1LYSJ6RgO4xQCNvwnm3sKN6m2NmzUp2jO'
+MODEL_CLOUD = os.environ.get('MODEL_CLOUD')
+TOKENIZER_CLOUD = os.environ.get('TOKENIZER_CLOUD')
+# MODEL_CLOUD = 'https://drive.google.com/uc?export=download&id=1V24-vhxGFixcUp8sVpOAVSUsYmxJFMWF'
+# TOKENIZER_CLOUD = 'https://drive.google.com/uc?export=download&id=1LYSJ6RgO4xQCNvwnm3sKN6m2NmzUp2jO'
 
 def load_pkl(url):
     path, _ = urllib.request.urlretrieve(url)
@@ -38,16 +39,15 @@ def predict():
     try:
         preprocessing.set_tokenizer(tokenizer)
         data = preprocessing.transform_input(request.get_json()['url'], 200)
-        data = data.reshape(-1, 1)
-        # prediction = (model.predict(data)).astype(float)
-        # prediction_binary = (np.array(prediction) > 0.5).astype(int)
-        # print(prediction, prediction_binary)
-        # return jsonify({'prediction': prediction, 
-        # 'prediction_binary': prediction_binary}), 200
-        return jsonify({'prediction': 'phishing'}), 200
+        prediction = model.predict(data)
+
+        if (prediction < 0.5):
+            return jsonify ({'prediction' : 'legitimate'})
+        else:
+            return jsonify ({'prediction' : 'phishing'})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
     
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=8080)
+    app.run(host="0.0.0.0", port=8000)
