@@ -10,7 +10,7 @@ import pickle
 
 app = Flask(__name__)
 swagger = Swagger(app)
-CORS(app)
+# CORS(app)
 
 preprocessing = Preprocessing()
 # MODEL_CLOUD = os.environ.get('MODEL_CLOUD')
@@ -26,6 +26,9 @@ def load_keras(url):
     models_path = 'models'
     file_name = 'model.keras'
     save_path = os.path.join(models_path, file_name)
+    if not os.path.exists(models_path):
+        os.makedirs(models_path)
+
 
     urllib.request.urlretrieve(url, save_path)
     return load_model(save_path)
@@ -50,4 +53,4 @@ def predict():
     
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=8080)
+    app.run(debug=True)
