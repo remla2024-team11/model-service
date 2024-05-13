@@ -10,7 +10,7 @@ import pickle
 
 app = Flask(__name__)
 swagger = Swagger(app)
-# CORS(app)
+CORS(app)
 
 preprocessing = Preprocessing()
 # MODEL_CLOUD = os.environ.get('MODEL_CLOUD')
