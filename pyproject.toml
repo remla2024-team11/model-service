@@ -11,6 +11,7 @@ flask = "^3.0.3"
 requests = "^2.31.0"
 numpy = "^1.26.4"
 lib-ml-team11 = "^0.0.1"
+flask-cors = "^4.0.1"
 
 
 [build-system]

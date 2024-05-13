@@ -1,10 +1,13 @@
 from flask import Flask, jsonify
+from flask_cors import CORS
 from lib_ml_team11 import Preprocessing 
 import numpy as np
 import requests
 import os
 
 app = Flask(__name__)
+CORS(app)
+
 preprocessing = Preprocessing()
 MODEL_OUTPUT_FILEPATH = 'models/model.pkl'
 MODEL_CLOUD = os.environ.get('MODEL_CLOUD')
@@ -23,7 +26,7 @@ def predict():
         # Load the model
         model = load_model(MODEL_CLOUD, MODEL_OUTPUT_FILEPATH)
         
-        data = preprocessing.transform_input(request.url, 200)
+        data = preprocessing.transform_input(request.body, 200)
 
         prediction = (model.predict(data, batch_size=1000)).astype(float)
         prediction_binary = (np.array(prediction) > 0.5).astype(int)
