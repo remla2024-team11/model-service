@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  model-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:82"
+    env_file:
+      - .env

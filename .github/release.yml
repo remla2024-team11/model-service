@@ -1,0 +1,21 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+    branches:
+      - main
+jobs:
+  build:
+  runs-on : ubuntu-latest
+  steps:
+    - uses: actions/checkout@v3
+    - name: Registry Login (ghcr.io)
+      run: |
+        echo "${{ secrets.TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+    - name: Build and Push Docker Image
+      run: |
+        IMG=ghcr.io/${{ github.repository }}
+        docker build --tag $IMG:latest .
+        docker push --all-tags $IMG
