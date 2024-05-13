@@ -2,10 +2,10 @@
 FROM python:3.11.0a6-buster
 
 # Set environment variables
-ENV MODEL_CLOUD="https://drive.google.com/uc?export=download&id=11GAfuaJqxezEJraNPZgu8wwfsCOfCQUe"
+ENV MODEL_CLOUD="https://drive.google.com/uc?export=download&id=1d4yvc-tRrDIzaCsxaQ8gHrw2HZeA3TCY"
 
 # Set the working directory in the container
-WORKDIR /src
+WORKDIR /root/
 
 # Copy the poetry files into the container at /src
 COPY pyproject.toml poetry.lock ./
@@ -16,8 +16,8 @@ RUN curl -sSL https://install.python-poetry.org | python3 -
 # Install project dependencies using Poetry
 RUN poetry install --no-root --no-interaction --no-ansi
 
-# Copy the rest of the project files into the container at /src
-COPY . .
+EXPOSE 8080
 
 # Command to run the Flask application
-CMD ["python", "app.py"]
+ENTRYPOINT [ "python" ]
+CMD ["src/app.py"]
